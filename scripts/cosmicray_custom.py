@@ -130,10 +130,10 @@ def decode_isf_to_csv(isf_filename: str,TIME_OFFSET: float, ratio_time = True, r
         vmin = v_V[imin]
 
         # threshold
-        if not ratio_time:
-            threshold = V_threshold
-        else:
-            threshold = ratio_threshold * vmin   # vmin is negative
+
+        # Exercise 0: implement the threshold calculation logic.
+        # if ratio_time is true, the threshold should be calculated based on V_min and ratio_threshold, otherwise it should be the fixed value V_threshold.
+        threshold = 0 # placeholder, replace with your code
 
         # search BACKWARD from minimum
         signal_timing = np.nan
@@ -222,10 +222,9 @@ def plot_waveforms_csv(csv_files,
             imin = np.argmin(v)
             vmin = v[imin]
 
-            if ratio_time:
-                threshold = ratio_threshold * vmin
-            else:
-                threshold = V_threshold
+            # Exercise 0: implement the threshold calculation logic.
+            # if ratio_time is true, the threshold should be calculated based on V_min and ratio_threshold, otherwise it should be the fixed value V_threshold.
+            threshold = 0 # placeholder, replace with your code
 
             timing = np.nan
 
@@ -309,34 +308,32 @@ def process_data(
 
         for m in range(n_measurements):
             vmins = []
-            fwhms = []
+            signal_timings = []
             csvs = []
 
             for c in range(4):  # 4 channels
                 isf = os.path.join(dir_data, f"run{m:05d}_{c+1}.isf")
 
-                vmin, fwhm, saturation, csv = decode_isf_to_csv(
+                vmin, signal_timing, saturation, csv = decode_isf_to_csv(
                     isf, TIME_OFFSET, ratio_time, ratio_threshold,V_threshold
                 )
 
                 vmins.append(vmin)
-                fwhms.append(fwhm)
+                signal_timings.append(signal_timing)
                 csvs.append(csv)
 
                 if saturation == 1:
                     print(f"[run {m:05d} ch {c+1}] saturation?")
 
             # calibrated times
-            ct = [
-                fwhms[i] + calibrations[i]
-                for i in range(4)
-            ]
+            # Exercise 0: apply the calibration to the signal timings. 
+            ct = signal_timings # placeholder, replace with your code
 
             # write one row
             row = [
                 m,
                 vmins[0], vmins[1], vmins[2], vmins[3],
-                fwhms[0], fwhms[1], fwhms[2], fwhms[3],
+                signal_timings[0], signal_timings[1], signal_timings[2], signal_timings[3],
                 ct[0], ct[1], ct[2], ct[3],
                 csvs[0], csvs[1], csvs[2], csvs[3],
             ]

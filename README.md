@@ -12,14 +12,16 @@ A simpler way to process the data is through [binder](https://mybinder.org/). On
 
 ```measurement/``` contains the scripts to acquire data from the oscilloscope.
 
-```scripts/``` contains the scripts necessary for data analysis. An educational demonstration notebook ```demo.ipynb``` is placed here for reference ```cosmicray.py``` defines a package dedicated for this analysis, containing several helper functions which would simplify the analysis.
+```scripts/``` contains the scripts necessary for data analysis. An educational demonstration notebook ```demo.ipynb``` is placed here for reference. ```cosmicray.py``` defines a package dedicated for this analysis, containing several helper functions which would simplify the analysis. Students are expected to finish the exercises in ```analysis_student.ipynb```, where the answer can be found in ```analysis_TA.ipynv```. Students can also finish their own ```cosmicray_custom.py``` to develop their own module.
 
 ## Cosmicray package
 
 Several helper functions are provided:
 
-```decode_isf_to_csv(isf_filename: str, TIME_OFFSET: float, baseline_points: int = 1000, saturation_threshold: int = 32700)``` accepts a single ```.isf``` data file and decodes it, translating binary data into ```.csv``` file. It returns ```(waveform_amplitude, first_fwhm_timing, saturation_flag, csv_file_path)```.
+```decode_isf_to_csv``` accepts a single ```.isf``` data file and decodes it, translating binary data into ```.csv``` file.
 
-```plot_waveforms_csv(csv_files, labels=None, title=None, xlim=None, ylim=None, voltage_unit="V", time_unit="ns", savepath=None, show=True)``` accepts a list of translated ```.csv``` files and make proper plots to inspect the measured waveforms.
+```plot_waveforms_csv``` accepts a list of translated ```.csv``` files and make proper plots to inspect the measured waveforms and the signal timing.
 
-```process_data( dir_data: str, n_measurements: int, TIME_OFFSET: float, calibrations: List[float] = [0, 0, 0, 0], summary_name: str = "summary.csv")``` accepts data directory, number of measurements to process and calibration information to process data massively, returning a path to the summary file, including waveform amplitudes, FWHM timing, calibrated FWHM timing and CSV files for all 4 channels in each measurement.
+```process_data``` accepts data directory, number of measurements to process and calibration information to process data massively.
+
+```plot_hist_gaussfit``` accepts pandas series calculated from signal timing data frame, plot the histogram and performs gaussian fit to it.
